@@ -8,18 +8,18 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "TypeAliases.h"
-#include "Shader.h"
-#include "ResourceAllocators.h"
+#include "GLShader.h"
+#include "GLResourceAllocators.h"
 
 using namespace gl;
 
 
-class ShaderProgram : public ShaderProgramAllocator {
+class GLShaderProgram : public GLShaderProgramAllocator {
 private:
-	std::vector<refw<Shader>> shaders_;
+	std::vector<refw<GLShader>> shaders_;
 
 public:
-	explicit ShaderProgram(std::vector<refw<Shader>> shaders) : shaders_{ std::move(shaders) } {
+	explicit GLShaderProgram(std::vector<refw<GLShader>> shaders) : shaders_{ std::move(shaders) } {
 		try {
 			link();
 		} catch (const std::exception& e) {
@@ -50,7 +50,7 @@ public:
 	// this enables calls like: shaderProgram.setUniform("viewMat", viewMat);
 	template<typename... Types>
 	void setUniform(const GLchar* name, Types... args) const {
-		ShaderProgram::setUniform(getUniformLocation(name), args...);
+		GLShaderProgram::setUniform(getUniformLocation(name), args...);
 	}
 
 	// values float
@@ -119,8 +119,8 @@ public:
 };
 
 
-void ShaderProgram::link() const {
-	for (Shader& shader: shaders_) {
+void GLShaderProgram::link() const {
+	for (GLShader& shader: shaders_) {
 		glAttachShader(id_, shader);
 	}
 	glLinkProgram(id_);
@@ -132,13 +132,13 @@ void ShaderProgram::link() const {
 	}
 }
 
-GLint ShaderProgram::getLinkSuccess() const {
+GLint GLShaderProgram::getLinkSuccess() const {
 	GLint success;
 	glGetProgramiv(id_, GL_LINK_STATUS, &success);
 	return success;
 }
 
-inline std::string ShaderProgram::getLinkInfo() const {
+inline std::string GLShaderProgram::getLinkInfo() const {
 	std::string output{};
 	GLint success = getLinkSuccess();
 	output += "\nLinking Status: " + ((success == GL_TRUE) ? std::string("Success") : std::string("Failure"));

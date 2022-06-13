@@ -7,11 +7,11 @@
 #include <glbinding/gl/gl.h>
 
 #include "TypeAliases.h"
-#include "ResourceAllocators.h"
+#include "GLResourceAllocators.h"
 
 using namespace gl;
 
-class Texture : public TextureAllocator {
+class GLTexture : public GLTextureAllocator {
 private:
 	std::string filename_;
 	const static std::array<GLenum, 32> texUnits_s;
@@ -25,7 +25,7 @@ private:
 
 
 public:
-	explicit Texture(std::string filename, GLenum internalFormat = GL_RGBA, GLenum format = GL_NONE);
+	explicit GLTexture(std::string filename, GLenum internalFormat = GL_RGBA, GLenum format = GL_NONE);
 
 	void bind() { glBindTexture(GL_TEXTURE_2D, id_); }
 
@@ -45,7 +45,7 @@ private:
 };
 
 
-inline const std::array<GLenum, 32> Texture::texUnits_s{
+inline const std::array<GLenum, 32> GLTexture::texUnits_s{
 	GL_TEXTURE0,  GL_TEXTURE1,  GL_TEXTURE2,  GL_TEXTURE3,  GL_TEXTURE4,
 	GL_TEXTURE5,  GL_TEXTURE6,  GL_TEXTURE7,  GL_TEXTURE8,  GL_TEXTURE9,
 	GL_TEXTURE10, GL_TEXTURE11, GL_TEXTURE12, GL_TEXTURE13, GL_TEXTURE14,
@@ -56,7 +56,7 @@ inline const std::array<GLenum, 32> Texture::texUnits_s{
 };
 
 
-inline Texture::Texture(std::string filename, GLenum internalFormat, GLenum format) :
+inline GLTexture::GLTexture(std::string filename, GLenum internalFormat, GLenum format) :
 		filename_{ std::move(filename) } {
 
 	// FIXME: depending on the 'format', the numer of channels loaded can be coerced into the requested value
@@ -81,7 +81,7 @@ inline Texture::Texture(std::string filename, GLenum internalFormat, GLenum form
 	stbi_image_free(imageData.data);
 }
 
-Texture::BasicImageData Texture::loadTextureImage(int numDesiredChannels) {
+GLTexture::BasicImageData GLTexture::loadTextureImage(int numDesiredChannels) {
 
 	BasicImageData imageData{};
 	stbi_set_flip_vertically_on_load(true);

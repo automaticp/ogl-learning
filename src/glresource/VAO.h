@@ -3,7 +3,7 @@
 #include <glbinding/gl/gl.h>
 #include "TypeAliases.h"
 #include "VBO.h"
-#include "ResourceAllocators.h"
+#include "GLResourceAllocators.h"
 
 using namespace gl;
 

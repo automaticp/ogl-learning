@@ -5,7 +5,7 @@
 #include <tuple>
 #include <glbinding/gl/gl.h>
 #include "TypeAliases.h"
-#include "ResourceAllocators.h"
+#include "GLResourceAllocators.h"
 
 using namespace gl;
 

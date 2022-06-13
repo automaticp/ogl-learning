@@ -1,17 +1,17 @@
 #pragma once
 #include <glbinding/gl/gl.h>
 #include <iostream>
-#include "IResource.h"
+#include "IGLResource.h"
 
 using namespace gl;
 
-class ShaderAllocator : public IResource {
+class GLShaderAllocator : public IGLResource {
 public:
-	explicit ShaderAllocator(GLenum type) noexcept {
+	explicit GLShaderAllocator(GLenum type) noexcept {
 		id_ = glCreateShader(type);
 #ifndef NDEBUG
 		std::cerr << "\n[id: " << id_ << "] "
-		          << "ShaderAllocator("
+		          << "GLShaderAllocator("
 		          << ((type == GL_FRAGMENT_SHADER) ? "GL_FRAGMENT_SHADER" : "")
 		          << ((type == GL_VERTEX_SHADER) ? "GL_VERTEX_SHADER" : "") << ")";
 #endif
@@ -20,72 +20,72 @@ public:
 private:
 	virtual void release() noexcept override final {
 #ifndef NDEBUG
-		std::cerr << "\n[id: " << id_ << "] " << "ShaderAllocator::release()";
+		std::cerr << "\n[id: " << id_ << "] " << "GLShaderAllocator::release()";
 #endif
 		glDeleteShader(id_);
 	}
 
 public:
-	virtual ~ShaderAllocator() override { ShaderAllocator::release(); }
+	virtual ~GLShaderAllocator() override { GLShaderAllocator::release(); }
 
-	ShaderAllocator(ShaderAllocator&&) = default;
-	ShaderAllocator& operator=(ShaderAllocator&&) = default;
+	GLShaderAllocator(GLShaderAllocator&&) = default;
+	GLShaderAllocator& operator=(GLShaderAllocator&&) = default;
 };
 
 
-class ShaderProgramAllocator : public IResource {
+class GLShaderProgramAllocator : public IGLResource {
 public:
-	ShaderProgramAllocator() noexcept {
+	GLShaderProgramAllocator() noexcept {
 		id_ = glCreateProgram();
 #ifndef NDEBUG
 		std::cerr << "\n[id: " << id_ << "] "
-		          << "ShaderProgramAllocator()";
+		          << "GLShaderProgramAllocator()";
 #endif
 	}
 
 private:
 	virtual void release() noexcept override final {
 #ifndef NDEBUG
-		std::cerr << "\n[id: " << id_ << "] " << "ShaderProgramAllocator::release()";
+		std::cerr << "\n[id: " << id_ << "] " << "GLShaderProgramAllocator::release()";
 #endif
 		glDeleteProgram(id_);
 	}
 
 public:
-	virtual ~ShaderProgramAllocator() override { ShaderProgramAllocator::release(); }
+	virtual ~GLShaderProgramAllocator() override { GLShaderProgramAllocator::release(); }
 
-	ShaderProgramAllocator(ShaderProgramAllocator&&) = default;
-	ShaderProgramAllocator& operator=(ShaderProgramAllocator&&) = default;
+	GLShaderProgramAllocator(GLShaderProgramAllocator&&) = default;
+	GLShaderProgramAllocator& operator=(GLShaderProgramAllocator&&) = default;
 };
 
 
-class TextureAllocator : public IResource {
+class GLTextureAllocator : public IGLResource {
 public:
-	TextureAllocator() noexcept {
+	GLTextureAllocator() noexcept {
 		glGenTextures(1, &id_);
 #ifndef NDEBUG
 		std::cerr << "\n[id: " << id_ << "] "
-		          << "TextureAllocator()";
+		          << "GLTextureAllocator()";
 #endif
 	}
 
 private:
 	virtual void release() noexcept override final {
 #ifndef NDEBUG
-		std::cerr << "\n[id: " << id_ << "] " << "TextureAllocator::release()";
+		std::cerr << "\n[id: " << id_ << "] " << "GLTextureAllocator::release()";
 #endif
 		glDeleteTextures(1, &id_);
 	}
 
 public:
-	virtual ~TextureAllocator() override { TextureAllocator::release(); }
+	virtual ~GLTextureAllocator() override { GLTextureAllocator::release(); }
 
-	TextureAllocator(TextureAllocator&&) = default;
-	TextureAllocator& operator=(TextureAllocator&&) = default;
+	GLTextureAllocator(GLTextureAllocator&&) = default;
+	GLTextureAllocator& operator=(GLTextureAllocator&&) = default;
 };
 
 
-class VAOAllocator : public IResource {
+class VAOAllocator : public IGLResource {
 public:
 	VAOAllocator() noexcept {
 		glGenVertexArrays(1, &id_);
@@ -111,7 +111,7 @@ public:
 };
 
 
-class VBOAllocator : public IResource {
+class VBOAllocator : public IGLResource {
 public:
 	VBOAllocator() noexcept {
 		glGenBuffers(1, &id_);

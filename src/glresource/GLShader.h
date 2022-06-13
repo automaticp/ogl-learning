@@ -9,12 +9,12 @@
 #include <utility>
 #include <glbinding/gl/gl.h>
 #include "TypeAliases.h"
-#include "ResourceAllocators.h"
+#include "GLResourceAllocators.h"
 
 using namespace gl;
 
 
-class Shader : public ShaderAllocator {
+class GLShader : public GLShaderAllocator {
 private:
 	std::string filename_;
 	GLenum type_;
@@ -22,7 +22,7 @@ private:
 	void compile() const;
 
 public:
-	Shader(GLenum type, std::string filename);
+	GLShader(GLenum type, std::string filename);
 
 	GLenum getType() const noexcept { return type_; }
 	const std::string& getFilename() const noexcept { return filename_; }
@@ -36,23 +36,23 @@ public:
 
 
 
-class FragmentShader : public Shader {
+class GLFragmentShader : public GLShader {
 public:
-	explicit FragmentShader(std::string filename) :
-			Shader(GL_FRAGMENT_SHADER, std::move(filename)) {}
+	explicit GLFragmentShader(std::string filename) :
+			GLShader(GL_FRAGMENT_SHADER, std::move(filename)) {}
 };
 
 
-class VertexShader : public Shader {
+class GLVertexShader : public GLShader {
 public:
-	explicit VertexShader(std::string filename) :
-			Shader(GL_VERTEX_SHADER, std::move(filename)) {}
+	explicit GLVertexShader(std::string filename) :
+			GLShader(GL_VERTEX_SHADER, std::move(filename)) {}
 };
 
 
 
 
-inline Shader::Shader(GLenum type, std::string filename) : ShaderAllocator(type) {
+inline GLShader::GLShader(GLenum type, std::string filename) : GLShaderAllocator(type) {
 	type_ = type;
 	filename_ = std::move(filename);
 
@@ -76,7 +76,7 @@ inline Shader::Shader(GLenum type, std::string filename) : ShaderAllocator(type)
 
 }
 
-inline void Shader::compile() const {
+inline void GLShader::compile() const {
 	const std::string shaderSourceString{ getSource() };
 	const GLchar* shaderSource{ shaderSourceString.c_str() };
 	glShaderSource(id_, 1, &shaderSource, nullptr);
@@ -91,7 +91,7 @@ inline void Shader::compile() const {
 	}
 }
 
-inline std::string Shader::getShaderFileSource(const std::string& filename) {
+inline std::string GLShader::getShaderFileSource(const std::string& filename) {
 
 	static const std::string shaderDir{ "data/shaders/" };
 
@@ -100,7 +100,7 @@ inline std::string Shader::getShaderFileSource(const std::string& filename) {
 	return outString;
 }
 
-inline std::string Shader::getCompileInfo() const {
+inline std::string GLShader::getCompileInfo() const {
 	std::string output{};
 	GLint shaderType, success, sourceLength;
 	glGetShaderiv(id_, GL_SHADER_TYPE, &shaderType);

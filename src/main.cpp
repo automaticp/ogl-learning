@@ -8,9 +8,9 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "Shader.h"
-#include "ShaderProgram.h"
-#include "Texture.h"
+#include "GLShader.h"
+#include "GLShaderProgram.h"
+#include "GLTexture.h"
 #include "Basis.h"
 #include "Camera.h"
 #include "Input.h"
@@ -105,17 +105,17 @@ int main() {
 
 
 	// Shaders
-	VertexShader VS{ "VertexShader.vert" };
+	GLVertexShader VS{ "VertexShader.vert" };
 	// Texture Material Box
-	FragmentShader FSMultiLight{ "MultiLightObject.frag" };
-	ShaderProgram SPMultiLight{{ VS, FSMultiLight }};
+	GLFragmentShader FSMultiLight{ "MultiLightObject.frag" };
+	GLShaderProgram SPMultiLight{{ VS, FSMultiLight }};
 	// Lighting Source
-	FragmentShader FSLightSource{ "LightSource.frag" };
-	ShaderProgram SPLightSource{ { VS, FSLightSource } };
+	GLFragmentShader FSLightSource{ "LightSource.frag" };
+	GLShaderProgram SPLightSource{ { VS, FSLightSource } };
 
 	// Textures
-	Texture boxTexDiffuse{ "container2_d.png" };
-	Texture boxTexSpecular{ "container2_colored_s.png" };
+	GLTexture boxTexDiffuse{ "container2_d.png" };
+	GLTexture boxTexSpecular{ "container2_colored_s.png" };
 
 
 	SPMultiLight.use();
