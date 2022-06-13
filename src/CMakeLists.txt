@@ -3,6 +3,7 @@ target_compile_features(ogllearn PRIVATE cxx_std_20)
 
 add_subdirectory(world)
 add_subdirectory(gl-resource)
+add_subdirectory(data-resource)
 add_subdirectory(input)
 add_subdirectory(types)
 
@@ -10,6 +11,7 @@ add_subdirectory(types)
 target_link_libraries(ogllearn
     PRIVATE
         glresource
+        data-resource
         world
         input
         types
