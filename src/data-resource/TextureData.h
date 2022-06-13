@@ -30,7 +30,7 @@ private:
 
         data = std::vector<unsigned char>(image_data, image_data + num_bytes);
 
-        stb_image_free(image_data);
+        stbi_image_free(image_data);
     }
 
 };
