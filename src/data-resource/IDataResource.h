@@ -14,8 +14,6 @@ public:
 
     explicit IDataResource(std::string path) : path{ std::move(path) } {}
 
-    virtual IDataResource& load() = 0;
-
     virtual ~IDataResource() = 0;
 };
 
