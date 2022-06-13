@@ -1,5 +1,5 @@
 
-add_library(data-resource INTERFACE IDataResource.h ResourceManager.h TextureData.h)
+add_library(data-resource INTERFACE IDataResource.h DataPool.h TextureData.h)
 
 target_include_directories(data-resource INTERFACE .)
 target_compile_features(data-resource INTERFACE cxx_std_20)

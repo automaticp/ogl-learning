@@ -8,7 +8,7 @@
 
 // A container and lifetime owner of data-like resources
 
-class ResourceManager {
+class DataPool {
 private:
     std::unordered_map<std::string, std::shared_ptr<IDataResource>> data_;
 
