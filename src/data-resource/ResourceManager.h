@@ -16,9 +16,7 @@ public:
     template<std::derived_from<IDataResource> T>
     std::shared_ptr<T> load(const std::string& path) {
         auto [emplaced_it, was_emplaced]{ data_.try_emplace(path, std::make_shared<T>(path)) };
-        if ( was_emplaced ) {
-            (*emplaced_it)->load();
-        }
+
         return std::dynamic_pointer_cast<T>(*emplaced_it);
     }
 };
