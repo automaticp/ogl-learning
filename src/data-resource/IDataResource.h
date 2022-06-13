@@ -17,4 +17,4 @@ public:
     virtual ~IDataResource() = 0;
 };
 
-IDataResource::~IDataResource() = default;
+inline IDataResource::~IDataResource() = default;
