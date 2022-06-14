@@ -25,15 +25,15 @@ private:
         }
         else {
             auto data_ptr = DataPool::load<D>(path); // FIXME?
-            auto emplaced_it{ emplace_from_data<T, D>(data_ptr) };
-            return std::dynamic_pointer_cast<T>(*emplaced_it);
+            auto emplaced_it{ emplace_from_data<T, D>(path, data_ptr) };
+            return emplace_from_data<T, D>(path, data_ptr);
         }
     }
 
-    template<typename T, typename D>
-    auto emplace_from_data(std::shared_ptr<D> data_ptr) {
-        auto [emplaced_it, was_emplaced]{ pool_.emplace(path, std::make_shared<T>(data_ptr)) };
-        return emplaced_it;
+    template<typename T, typename D, typename ... OtherArgs>
+    std::shared_ptr<T> emplace_from_data(const std::string& path, std::shared_ptr<D> data_ptr, OtherArgs&&... args) {
+        auto [emplaced_it, was_emplaced]{ pool_.emplace(path, std::make_shared<T>(data_ptr, std::forward<OtherArgs>(args)...)) };
+        return std::dynamic_pointer_cast<T>(*emplaced_it);
     }
 
 };
